@@ -9,18 +9,20 @@ function getTotalAccountsCount(accounts) {
   return accounts.length;
 }
 
-function getBooksBorrowedCount(books={}) {
-  let counter = 0
-books.forEach((bookObj)=>{
-  const {borrows}= bookObj;
-if(borrows[0].returned === false){
-  counter++
- }
-})
-return counter;
+//using reduce 
+function getBooksBorrowedCount(books = {}) {
+  return Object.values(books).reduce((counter, bookObj) => {
+    const { borrows } = bookObj;
+    if (borrows[0].returned === false) {
+      counter++;
+    }
+    return counter;
+  }, 0);
+ 
+ 
 }
-
-function getMostCommonGenres(books) {
+// using a helper function 
+function countGenres(books) {
   let result = {};
   books.forEach((num) => {
    if (result[num.genre]) {
@@ -29,9 +31,16 @@ function getMostCommonGenres(books) {
     result[num.genre] = 1;
    }
   });
-  return Object.entries(result).map(([name, count]) => {
-    return {name,count}}).sort((countA, countB) => countB.count - countA.count).slice(0, 5);
- }
+  return result;
+}
+// using helper function countGenres and implementing it to the function 
+function getMostCommonGenres(books) {
+  let genreCount = countGenres(books);
+  return Object.entries(genreCount)
+    .map(([name, count]) => ({ name, count }))
+    .sort((countA, countB) => countB.count - countA.count)
+    .slice(0, 5);
+}
  
 
 function getMostPopularBooks(books) {
