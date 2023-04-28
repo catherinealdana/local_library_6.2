@@ -21,7 +21,7 @@ function getBooksBorrowedCount(books = {}) {
  
  
 }
-// using a helper function 
+// using a helper function ( it helps counting how many genres are in the books array )
 function countGenres(books) {
   let result = {};
   books.forEach((num) => {
